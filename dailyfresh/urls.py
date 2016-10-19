@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from apps.goods import views
 
 urlpatterns = patterns(
     '',
@@ -7,6 +8,7 @@ urlpatterns = patterns(
     # url(r'^$', 'ecom.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^$', views.home_list_page),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^passport/', include('apps.passport.urls')),
     url(r'^profile/', include('apps.profile.urls')),

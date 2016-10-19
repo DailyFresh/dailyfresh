@@ -12,8 +12,7 @@ class BaseModel(models.Model):
     """
 
     create_time = models.DateTimeField(auto_now_add=True, help_text='创建时间')
-    update_time = models.DateTimeField(auto_now_add=True, auto_now=True,
-                                       help_text='更新时间')
+    update_time = models.DateTimeField(auto_now=True, help_text='更新时间')
     extinfo = JSONField(
         blank=True, null=True, default={}, help_text='扩展字段')
 
