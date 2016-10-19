@@ -2,6 +2,7 @@ from django.views.decorators.http import require_POST
 from .logics import CartLogic
 from utils.views import json_view
 from utils.views import login_required
+from django.shortcuts import render
 
 
 @login_required
@@ -41,3 +42,7 @@ def clear_carts(request):
     user_id = request.user.id
     content = CartLogic.clear_carts(user_id)
     return {'code': 1, 'content': content}
+
+
+def cart(request):
+    return render(request, 'cart.html')

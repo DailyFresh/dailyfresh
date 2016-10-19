@@ -1,7 +1,8 @@
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods, require_POST
 from .logics import ProfileLogic
 from utils.views import json_view
 from utils.views import login_required
+from django.shortcuts import render
 
 
 @login_required
@@ -27,3 +28,7 @@ def get_profile(request):
     user_id = request.user.id
     content = ProfileLogic.get_profile(user_id)
     return {'code': 1, 'content': content}
+
+# @login_required
+def profile(request):
+    return render(request, "user_center_info.html")

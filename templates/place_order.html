@@ -1,39 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>天天生鲜-提交订单</title>
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-<body>
-	<div class="header_con">
-		<div class="header">
-			<div class="welcome fl">欢迎来到天天生鲜!</div>
-			<div class="topmenu fr logged">
-				<div class="user_login fl">欢迎您：<em>张山</em></div>
-				<ul class="login_menu fl">
-					<li class="menu_txt haslogin"><a href="#">登录</a></li>
-					<li class="interval haslogin">|</li>
-					<li class="menu_txt haslogin"><a href="#">注册</a></li>
-					<li class="interval">|</li>
-					<li class="menu_txt"><a href="#">我的购物车</a></li>
-					<li class="interval">|</li>
-					<li class="menu_txt"><a href="#">我的订单</a></li>
-				</ul>
-			</div>
-		</div>		
-	</div>
+{% extends 'base.html' %}
 
+{% load staticfiles %}
+
+{% block title %}天天生鲜-提交订单{% endblock %}
+
+{% block search_bar %}
 	<div class="search_bar clearfix">
-		<a href="index.html" class="logo fl"><img src="images/logo.png"></a>
+		<a href="/" class="logo fl"><img src="{% static 'images/logo.png' %}"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;提交订单</div>
 		<div class="search_con fr">
 			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
 			<input type="button" class="input_btn fr" name="" value="搜索">
 		</div>		
 	</div>
-	
+{% endblock %}
+
+{% block body %}
 	<h3 class="common_title">确认收货地址</h3>
 
 	<div class="common_list_con clearfix">
@@ -41,7 +23,7 @@
 			<dt>寄送到：</dt>
 			<dd><input type="radio" name="" checked="">北京市 海淀区 东北旺西路8号中关村软件园 （李思 收） 182****7528</dd>
 		</dl>
-		<input type="button" class="edit_site" value="编辑收货地址">
+		<a href="user_center_site.html" class="edit_site">编辑收货地址</a>
 
 	</div>
 	
@@ -102,21 +84,9 @@
 	<div class="order_submit clearfix">
 		<a href="javascript:;" id="order_btn">提交订单</a>
 	</div>	
+{% endblock %}
 
-	<div class="footer">
-		<div class="foot_link">
-			<a href="#">关于我们</a>
-			<span>|</span>
-			<a href="#">联系我们</a>
-			<span>|</span>
-			<a href="#">招聘人才</a>
-			<span>|</span>
-			<a href="#">友情链接</a>		
-		</div>
-		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
-	</div>
-
+{% block footer %}
 	<div class="popup_con">
 		<div class="popup">
 			<p>订单提交成功！</p>
@@ -124,6 +94,9 @@
 		
 		<div class="mask"></div>
 	</div>
+{% endblock %}
+
+{% block bottom_files %}
 	<script type="text/javascript" src="js/jquery-1.12.2.js"></script>
 	<script type="text/javascript">
 		$('#order_btn').click(function() {
@@ -140,5 +113,4 @@
 			});
 		});
 	</script>
-</body>
-</html>
+{% endblock %}

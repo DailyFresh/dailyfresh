@@ -2,6 +2,7 @@ from django.views.decorators.http import require_POST
 from .logics import OrderLogic
 from utils.views import json_view
 from utils.views import login_required
+from django.shortcuts import render
 
 
 @login_required
@@ -49,3 +50,6 @@ def getlist(request):
     user_id = request.user.id
     content = OrderLogic.getlist(user_id)
     return {'code': 1, 'content': content}
+
+def my_order(request):
+    return render(request, 'user_center_order.html')

@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = patterns(
     '',
+    url(r'^$', views.cart),
     url(r'^add$', views.add_to_cart),
     url(r'^delete$', views.delete_from_cart),
     url(r'^clear$', views.clear_carts),
