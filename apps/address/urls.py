@@ -1,9 +1,9 @@
 from django.conf.urls import url, patterns
 from . import views
 
-
 urlpatterns = patterns(
     '',
+    url(r'^$', views.address),
     url(r'^add$', views.add_one_address),
     url(r'^delete$', views.delete_one_address),
     # url(r'^get_goods_info$', views.get_goods_info),

@@ -1,5 +1,7 @@
 from django.db import models
 from utils.models import BaseModel
+from apps.passport.models import Passport
+from apps.goods.models import Goods
 
 
 class Profile(BaseModel):
@@ -45,3 +47,14 @@ class Profile(BaseModel):
         data.addr_detail = addr_detail
         data.save()
         return data
+
+
+class BrowseHistory(BaseModel):
+    """
+    用户浏览商品记录
+    """
+    user = models.ForeignKey(Passport, help_text='用户')
+    goods = models.ForeignKey(Goods, help_text='商品')
+
+    class Meta:
+        db_table = 's_user_browse_history'

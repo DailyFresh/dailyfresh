@@ -21,9 +21,13 @@
 	<div class="common_list_con clearfix">
 		<dl>
 			<dt>寄送到：</dt>
-			<dd><input type="radio" name="" checked="">北京市 海淀区 东北旺西路8号中关村软件园 （李思 收） 182****7528</dd>
+			{% if address %}
+			<dd><input type="radio" id="address" addr_id="{{address.id}}" checked="">{{address.recipient_name}} {{address.addr_detail}} {{address.recipient_phone}}</dd>
+			{% else %}
+			<dd><input type="radio" id="address" addr_id="" checked="">请添加地址</dd>
+			{% endif %}
 		</dl>
-		<a href="user_center_site.html" class="edit_site">编辑收货地址</a>
+		<a href="/address?{{query_str}}" class="edit_site">编辑收货地址</a>
 
 	</div>
 	
@@ -51,33 +55,26 @@
 			<li class="col04">数量</li>
 			<li class="col05">小计</li>		
 		</ul>
+		{% for goods in goods_li %}
 		<ul class="goods_list_td clearfix">
-			<li class="col01">1</li>			
-			<li class="col02"><img src="images/goods/goods012.jpg"></li>
-			<li class="col03">奇异果</li>
-			<li class="col04">500g</li>
-			<li class="col05">25.80元</li>
-			<li class="col06">1</li>
-			<li class="col07">25.80元</li>	
+			<li class="col01">{{forloop.counter}}</li>			
+			<li class="col02"><img src="{% static 'res/' %}{{goods.img}}"></li>
+			<li class="col03">{{goods.goods_name}}</li>
+			<li class="col04">{{goods.goods_unit}}g</li>
+			<li class="col05">{{goods.price}}元</li>
+			<li class="col06">{{goods.count}}</li>
+			<li class="col07">{{goods.total}}元</li>	
 		</ul>
-		<ul class="goods_list_td clearfix">
-			<li class="col01">2</li>			
-			<li class="col02"><img src="images/goods/goods003.jpg"></li>
-			<li class="col03">大兴大棚草莓</li>
-			<li class="col04">500g</li>
-			<li class="col05">16.80元</li>
-			<li class="col06">1</li>
-			<li class="col07">16.80元</li>	
-		</ul>
+		{% endfor %}
 	</div>
 
 	<h3 class="common_title">总金额结算</h3>
 
 	<div class="common_list_con clearfix">
 		<div class="settle_con">
-			<div class="total_goods_count">共<em>2</em>件商品，总金额<b>42.60元</b></div>
-			<div class="transit">运费：<b>10元</b></div>
-			<div class="total_pay">实付款：<b>52.60元</b></div>
+			<div class="total_goods_count">共<em>{{total_count}}</em>件商品，总金额<b>{{total_amount}}元</b></div>
+			<div class="transit">运费：<b>{{ex_price}}元</b></div>
+			<div class="total_pay">实付款：<b>{{total}}元</b></div>
 		</div>
 	</div>
 
@@ -97,20 +94,38 @@
 {% endblock %}
 
 {% block bottom_files %}
-	<script type="text/javascript" src="js/jquery-1.12.2.js"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.2.js' %}"></script>
 	<script type="text/javascript">
 		$('#order_btn').click(function() {
-			localStorage.setItem('order_finish',2);
-
-			$('.popup_con').fadeIn('fast', function() {
-
-				setTimeout(function(){
-					$('.popup_con').fadeOut('fast',function(){
-						window.location.href = 'index.html';
-					});	
-				},3000)
-				
-			});
+			var addr_id = $('#address').attr('addr_id');
+			if (addr_id == "") {
+				alert("请先编辑收货地址!");
+			}
+			else {
+				// localStorage.setItem('order_finish',2);
+				var order_data = {
+					addr_id: addr_id,	
+					goods :[
+					{% for goods in goods_li %}
+					{goods_id:{{goods.id}}, count:{{goods.count}}},
+					{% endfor %}
+					],
+					carts:{{carts}}
+				};
+				$.post('/order/add', JSON.stringify(order_data), function(data){
+					if (2 == data.code) {
+						alert("库存不足，请修改订单！");
+					} else {
+						$('.popup_con').fadeIn('fast', function() {
+							setTimeout(function(){
+								$('.popup_con').fadeOut('fast',function(){
+									window.location.href = '/order/1';
+								});	
+							},3000)	
+						});
+					}
+				});
+			}
 		});
 	</script>
 {% endblock %}

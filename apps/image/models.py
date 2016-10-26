@@ -11,7 +11,7 @@ class Image(BaseModel):
 
     img_product_id = models.ForeignKey(Goods, help_text='商品ID')
     img_url = models.ImageField(
-        upload_to='productimages', blank=False, help_text='图片url路径')
+        upload_to='goods', blank=False, help_text='图片url路径')
     img_type = models.CharField(max_length=64, help_text='图片mime类型')
     img_is_def = models.BooleanField(default=False, help_text='是否默认')
 
