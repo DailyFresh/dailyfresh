@@ -9,7 +9,6 @@ class GoodsIndex(indexes.SearchIndex, indexes.Indexable):
     """
 
     text = indexes.CharField(document=True, use_template=False)
-    goods_type_name = indexes.CharField(model_attr='goods_type_name')
     goods_name = indexes.CharField(model_attr='goods_name')
 
     def get_model(self):

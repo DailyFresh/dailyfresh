@@ -62,6 +62,8 @@ ROOT_URLCONF = 'dailyfresh.urls'
 
 WSGI_APPLICATION = 'dailyfresh.wsgi.application'
 
+LOGIN_URL = '/passport/login'
+
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -95,8 +97,8 @@ STATICFILES_DIRS = (
     STATIC_PATH,
 )
 
-MEDIA_URL = '/res/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'res')
+MEDIA_URL = '/static/res/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/res')
 
 LANGUAGE_CODE = 'zh_CN'
 

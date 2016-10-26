@@ -10,23 +10,27 @@ class Goods(BaseModel):
     """
     YES = 1
     NO = 2
-
+    
     ONLINE = 1
     OFFLINE = 2
     DELETED = 3
 
     goods_type_id = models.SmallIntegerField(default=1, help_text='商品分类ID')
-    goods_type_name = models.CharField(
-        default="", max_length=32, help_text="商品分类的名字")
     goods_name = models.CharField(default="", max_length=64, help_text='商品名称')
+    goods_subtitle = models.CharField(default="", max_length=128, help_text='商品副标题')
     goods_price = models.FloatField(default=0.0, help_text='商品价格')
     goods_unit = models.IntegerField(default=1,help_text='商品单位')
     goods_ex_price = models.FloatField(default=0.0, help_text='商品运费')
     goods_info = models.TextField(help_text='商品描述')
     goods_status = models.IntegerField(default=ONLINE, help_text='商品状态')
+    goods_stock = models.IntegerField(default=1,help_text='商品库存')
+    goods_sales = models.IntegerField(default=1,help_text='商品销量')
 
     class Meta:
         db_table = 's_goods'
+
+    def __str__(self):
+        return '%s %s' % (self.id, self.goods_name)
 
     @classmethod
     def delete_one_goods(cls, goods_id):
@@ -41,11 +45,10 @@ class Goods(BaseModel):
 
     @classmethod
     def update_one_goods(
-            cls, goods_id, goods_type_id, goods_type_name, goods_name,
+            cls, goods_id, goods_type_id, goods_name, 
             goods_price, goods_ex_price, goods_info, goods_status):
         data = cls.objects.get(id=goods_id)
         data.goods_type_id = goods_type_id
-        data.goods_type_name = goods_type_name
         data.goods_name = goods_name
         data.goods_price = goods_price
         data.goods_ex_price = goods_ex_price
@@ -61,3 +64,19 @@ class Goods(BaseModel):
     @classmethod
     def get_all_goods(cls):
         return cls.objects.all()
+
+    @classmethod
+    def get_goods_by_type(cls, goods_type_id, limit=None, sort='default'):
+        if 'price' == sort:
+            data = cls.objects.filter(goods_type_id=goods_type_id).order_by('goods_price')
+        elif 'hot' == sort:
+            data = cls.objects.filter(goods_type_id=goods_type_id).order_by('-goods_sales')
+        elif 'new' == sort:
+            data = cls.objects.filter(goods_type_id=goods_type_id).order_by('-create_time')
+        else:
+            data = cls.objects.filter(goods_type_id=goods_type_id)
+        if None == limit:
+            return data
+        else:
+            return data[:limit]
+

@@ -1,5 +1,6 @@
 from django.db import models
 from utils.models import BaseModel
+from apps.passport.models import Passport
 
 
 class Address(BaseModel):
@@ -8,7 +9,7 @@ class Address(BaseModel):
     购物车
     """
 
-    user_id = models.IntegerField(help_text='用户ID')
+    user = models.ForeignKey(Passport, help_text='用户')
 
     recipient_name = models.CharField(blank=True,null=True,max_length=32,help_text='收件人姓名')
 
@@ -22,16 +23,17 @@ class Address(BaseModel):
                               help_text='县')
     addr_detail = models.CharField(blank=True, null=True, max_length=64,
                                    help_text='详细地址')
+    zip_code = models.CharField(blank=True, null=True, max_length=10, help_text='邮编')
 
     class Meta:
         db_table = 's_address'
 
-    @classmethod
-    def delete_one_address(cls, user_id, addr_id):
-        data = cls.objects.get(user_id=user_id, id=addr_id)
-        data.delete()
-        return data
+    # @classmethod
+    # def delete_one_address(cls, user_id, addr_id):
+    #     data = cls.objects.get(user_id=user_id, id=addr_id)
+    #     data.delete()
+    #     return data
 
-    @classmethod
-    def get_all_address(cls, user_id):
-        return cls.objects.filter(user_id=user_id)
+    # @classmethod
+    # def get_all_address(cls, user_id):
+    #     return cls.objects.filter(user_id=user_id)

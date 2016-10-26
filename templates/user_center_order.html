@@ -20,81 +20,78 @@
 		<div class="left_menu_con clearfix">
 			<h3>用户中心</h3>
 			<ul>
-				<li><a href="user_center_info.html">· 个人信息</a></li>
-				<li><a href="user_center_order.html" class="active">· 全部订单</a></li>
-				<li><a href="user_center_site.html">· 收货地址</a></li>
+				<li><a href="/profile">· 个人信息</a></li>
+				<li><a href="/order/1" class="active">· 全部订单</a></li>
+				<li><a href="/address">· 收货地址</a></li>
 			</ul>
 		</div>
 		<div class="right_content clearfix">
 				<h3 class="common_title2">全部订单</h3>
+				{% for item in order_li %}
 				<ul class="order_list_th w978 clearfix">
-					<li class="col01">2016-8-21 17:36:24</li>
-					<li class="col02">订单号：56872934</li>
-					<li class="col02 stress">未支付</li>		
+					<li class="col01">{{item.ctime}}</li>
+					<li class="col02">订单号：{{item.id}}</li>
+					<li class="col02 stress">{{item.status}}</li>		
 				</ul>
 
 				<table class="order_list_table w980">
 					<tbody>
 						<tr>
 							<td width="55%">
+								{% for goods in item.goods_li %}
 								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="images/goods02.jpg"></li>
-									<li class="col02">嘎啦苹果嘎啦苹果<em>11.80元/500g</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">11.80元</li>	
+									<li class="col01"><img src="{% static 'res/' %}{{goods.img}}"></li>
+									<li class="col02">{{goods.goods_name}}<em>{{goods.price}}/{{goods.goods_unit}}g</em></li>	
+									<li class="col03">{{goods.count}}</li>
+									<li class="col04">{{goods.total}}元</li>	
 								</ul>
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="images/goods02.jpg"></li>
-									<li class="col02">嘎啦苹果嘎啦苹果<em>11.80元/500g</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">11.80元</li>	
-								</ul>
+								{% endfor %}
 							</td>
-							<td width="15%">33.60元</td>
-							<td width="15%">待付款</td>
-							<td width="15%"><a href="#" class="oper_btn">去付款</a></td>
+							<td width="15%">{{item.total}}元<br/>（含运费{{item.ex_price}}元）</td>
+							<td width="15%">{{item.status}}</td>
+							<td width="15%"><a href="javascript:;" order_id={{item.id}} order_status={{item.order_status}} class="oper_btn">
+								{% if 1 == item.order_status %}
+									去付款
+								{% elif 5 == item.order_status %}
+									去评价
+								{% elif 6 == item.order_status %}
+									已完成
+								{% endif %}
+							</a></td>
 						</tr>
 					</tbody>
 				</table>
-				
-				<ul class="order_list_th w978 clearfix">
-					<li class="col01">2016-8-21 17:36:24</li>
-					<li class="col02">订单号：56872934</li>
-					<li class="col02 stress">已支付</li>			
-				</ul>
-				<table class="order_list_table w980">
-					<tbody>
-						<tr>
-							<td width="55%">
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="images/goods02.jpg"></li>
-									<li class="col02">嘎啦苹果嘎啦苹果<em>11.80元/500g</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">11.80元</li>	
-								</ul>
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="images/goods02.jpg"></li>
-									<li class="col02">嘎啦苹果嘎啦苹果<em>11.80元/500g</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">11.80元</li>	
-								</ul>
-							</td>
-							<td width="15%">33.60元</td>
-							<td width="15%">已付款</td>
-							<td width="15%"><a href="#" class="oper_btn">查看物流</a></td>
-						</tr>
-					</tbody>
-				</table>
+				{% endfor %}
 
 				<div class="pagenation">
-					<a href="#"><上一页</a>
-					<a href="#" class="active">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">下一页></a>
+				{% if pre_page %}
+					<a href="/order/{{pre_page}}"><上一页</a>
+				{% endif %}
+				{% for p in pages %}
+					<a href="/order/{{p}}" {% if p == active_page %}class="active"{% endif %}>{{p}}</a>
+				{% endfor %}
+				{% if next_page %}
+					<a href="/order/{{next_page}}">下一页></a>
+				{% endif %}
 				</div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block bottom_files %}
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.2.js' %}"></script>
+	<script type="text/javascript">
+		$('.oper_btn').click(function() {
+			var order_id = $(this).attr("order_id");
+			var order_status = $(this).attr("order_status");
+			order_status = parseInt(order_status);
+			if (1 == order_status) {
+				$.post('/order/finish', {order_id:order_id}, function(data){
+					window.location.reload();
+				});
+			} else if (5 == order_status) {
+				window.location.href = ("/order/comment?o=" + order_id);
+			} 
+		});
+	</script>
 {% endblock %}

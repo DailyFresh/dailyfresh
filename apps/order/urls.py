@@ -4,8 +4,11 @@ from . import views
 
 urlpatterns = patterns(
     '',
-    url(r'^$', views.my_order),
-    url(r'^add$', views.add_one_order),
+    url(r'^(?P<page>\d+)$', views.my_order),
+    url(r'^commit$', views.commit_order),
+    url(r'^add$', views.add_order),
+    url(r'^finish$', views.finish_order),
+    url(r'^comment$', views.comment),
     url(r'^delete$', views.delete_one_order),
     url(r'^cancel$', views.cancel_one_order),
     # url(r'^get_goods_info$', views.get_goods_info),
