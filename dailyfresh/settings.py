@@ -120,10 +120,10 @@ AUTH_USER_MODEL = 'passport.Passport'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.163.com'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = '********@163.com'
-EMAIL_HOST_PASSWORD = '7e395254298'
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = '*****@qq.com'
+EMAIL_HOST_PASSWORD = 'fuetnskqacerbgfh'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 

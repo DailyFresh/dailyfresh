@@ -21,6 +21,8 @@ def home_list_page(request):
     cart = {'goods_num__sum':0}
     if request.user.is_authenticated():
         cart = Cart.objects.filter(user=request.user).aggregate(Sum('goods_num'))
+        if None == cart['goods_num__sum']:
+            cart['goods_num__sum'] = 0
     return render(request,'index.html', {'fruits':fruits, 'seafood':seafood, 'meat':meat, 'eggs':eggs, 'vegetables':vegetables, 'frozen':frozen, 'cart':cart['goods_num__sum']})
 
 def goods_detail(request, goods_id):
@@ -33,6 +35,8 @@ def goods_detail(request, goods_id):
     cart = {'goods_num__sum':0}
     if request.user.is_authenticated():
         cart = Cart.objects.filter(user=request.user).aggregate(Sum('goods_num'))
+        if None == cart['goods_num__sum']:
+            cart['goods_num__sum'] = 0
         BrowseHistory.add_one_object(user=request.user, goods=goods)
     return render(request, 'detail.html', {'goods':goods, 'cart':cart['goods_num__sum'], 'new_goods_li':new_goods_li, 'comments':comments})
 
@@ -45,6 +49,8 @@ def goods_list(request, goods_type_id, page):
     cart = {'goods_num__sum':0}
     if request.user.is_authenticated():
         cart = Cart.objects.filter(user=request.user).aggregate(Sum('goods_num'))
+        if None == cart['goods_num__sum']:
+            cart['goods_num__sum'] = 0
     paginator = Paginator(goods_li_all, LIST_PAGE_CAPACITY)
     try:
         goods_li = paginator.page(page)
