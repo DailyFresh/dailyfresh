@@ -1,6 +1,4 @@
 from django.views.decorators.http import require_POST, require_http_methods
-from .logics import AddrLogic
-from utils.views import json_view
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Address
@@ -29,24 +27,6 @@ def add_one_address(request):
         return redirect('/order/commit?'+request.META['QUERY_STRING'])
     else:
         return render(request, 'user_center_site.html', {'addr':addr})
-
-@login_required
-@require_POST
-@json_view
-def delete_one_address(request):
-    user_id = request.user.id
-    addr_id = int(request.POST['addr_id'])
-    content = AddrLogic.delete_one_address(user_id, addr_id)
-    return {'code': 1, 'content': content}
-
-
-@login_required
-@require_POST
-@json_view
-def getlist(request):
-    user_id = request.user.id
-    content = AddrLogic.getlist(user_id)
-    return {'code': 1, 'content': content}
 
 
 @login_required

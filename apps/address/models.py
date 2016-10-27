@@ -27,13 +27,3 @@ class Address(BaseModel):
 
     class Meta:
         db_table = 's_address'
-
-    # @classmethod
-    # def delete_one_address(cls, user_id, addr_id):
-    #     data = cls.objects.get(user_id=user_id, id=addr_id)
-    #     data.delete()
-    #     return data
-
-    # @classmethod
-    # def get_all_address(cls, user_id):
-    #     return cls.objects.filter(user_id=user_id)

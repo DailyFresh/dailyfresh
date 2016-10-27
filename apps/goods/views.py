@@ -1,7 +1,6 @@
 from django.views.decorators.http import require_POST
 from .logics import GoodsLogic
 from utils.views import json_view
-from utils.views import login_required
 from django.shortcuts import render
 from .enums import *
 from apps.cart.models import Cart
@@ -25,6 +24,7 @@ def home_list_page(request):
             cart['goods_num__sum'] = 0
     return render(request,'index.html', {'fruits':fruits, 'seafood':seafood, 'meat':meat, 'eggs':eggs, 'vegetables':vegetables, 'frozen':frozen, 'cart':cart['goods_num__sum']})
 
+
 def goods_detail(request, goods_id):
     goods = GoodsLogic.get_one_goods(goods_id)
     comments = goods.sordergoods_set.all().order_by('-create_time')[:30]
@@ -39,6 +39,7 @@ def goods_detail(request, goods_id):
             cart['goods_num__sum'] = 0
         BrowseHistory.add_one_object(user=request.user, goods=goods)
     return render(request, 'detail.html', {'goods':goods, 'cart':cart['goods_num__sum'], 'new_goods_li':new_goods_li, 'comments':comments})
+
 
 def goods_list(request, goods_type_id, page):
     goods_type_id = int(goods_type_id)
@@ -71,79 +72,6 @@ def goods_list(request, goods_type_id, page):
     next_page = page + 1 if page < num_pages else 0
 
     return render(request, 'list.html', {'sort':sort, 'type_name':GOODS_TYPE[goods_type_id], 'type_id':goods_type_id, 'new_goods_li':new_goods_li, 'goods_li':goods_li, 'cart':cart['goods_num__sum'], 'pre_page':pre_page, 'next_page':next_page, 'pages':pages, 'active_page':page})
-
-
-# @require_POST
-# @json_view
-# def add_one_goods(request):
-#     goods_type_id = int(request.POST['goods_type_id'])
-#     goods_type_name = request.POST['goods_type_name']
-#     goods_name = request.POST['goods_name']
-#     goods_price = float(request.POST['goods_price'])
-#     goods_ex_price = float(request.POST['goods_ex_price'])
-#     file_ids = request.POST['file_ids']
-#     goods_status = int(request.POST['goods_status'])
-#     content = GoodsLogic.add_one_goods(
-#         goods_type_id, goods_type_name, goods_name, goods_price,
-#         goods_ex_price, file_ids, goods_status)
-#     return {'code': 1, 'content': content}
-
-
-# @login_required
-# @require_POST
-# @json_view
-# def delete_one_goods(request):
-#     goods_id = int(request.POST['goods_id'])
-#     content = GoodsLogic.delete_one_goods(goods_id)
-#     return {'code': 1, 'content': content}
-
-
-@json_view
-def get_goods_info(request):
-    content = GoodsLogic.get_goods_info()
-    return {'code': 1, 'content': content}
-
-
-# @login_required
-# @require_POST
-# @json_view
-# def update_one_goods(request):
-#     goods_id = int(request.POST['goods_id'])
-#     goods_type_id = int(request.POST['goods_type_id'])
-#     goods_type_name = request.POST['goods_type_name']
-#     goods_name = request.POST['goods_name']
-#     goods_price = float(request.POST['goods_price'])
-#     goods_ex_price = float(request.POST['goods_ex_price'])
-#     file_ids = request.POST['file_ids']
-#     goods_status = int(request.POST['goods_status'])
-#     content = GoodsLogic.update_one_goods(
-#         goods_id, goods_type_id, goods_type_name, goods_name, goods_price,
-#         goods_ex_price, file_ids, goods_status)
-#     return {'code': 1, 'content': content}
-
-
-@login_required
-@require_POST
-@json_view
-def get_one_goods(request):
-    goods_id = int(request.POST['goods_id'])
-    content = GoodsLogic.get_one_goods(goods_id)
-    return {'code': 1, 'content': content}
-
-
-@json_view
-def getlist(request):
-    content = GoodsLogic.getlist()
-    return {'code': 1, 'content': content}
-
-
-@login_required
-@require_POST
-@json_view
-def search(request):
-    text = request.POST['text']
-    content = GoodsLogic.search(text)
-    return {'code': 1, 'content': content}
 
 
 class MySearchView(SearchView):

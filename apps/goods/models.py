@@ -33,37 +33,8 @@ class Goods(BaseModel):
         return '%s %s' % (self.id, self.goods_name)
 
     @classmethod
-    def delete_one_goods(cls, goods_id):
-        data = cls.objects.get(id=goods_id)
-        data.goods_status = cls.DELETED
-        data.save()
-        return data
-
-    @classmethod
-    def get_goods_info(cls):
-        return cls.objects.distinct(*('goods_type_id', 'goods_name'))
-
-    @classmethod
-    def update_one_goods(
-            cls, goods_id, goods_type_id, goods_name, 
-            goods_price, goods_ex_price, goods_info, goods_status):
-        data = cls.objects.get(id=goods_id)
-        data.goods_type_id = goods_type_id
-        data.goods_name = goods_name
-        data.goods_price = goods_price
-        data.goods_ex_price = goods_ex_price
-        data.goods_info = goods_info
-        data.goods_status = goods_status
-        data.save()
-        return data
-
-    @classmethod
     def get_one_goods(cls, goods_id):
         return cls.objects.get(id=goods_id)
-
-    @classmethod
-    def get_all_goods(cls):
-        return cls.objects.all()
 
     @classmethod
     def get_goods_by_type(cls, goods_type_id, limit=None, sort='default'):

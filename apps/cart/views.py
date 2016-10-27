@@ -1,5 +1,4 @@
 from django.views.decorators.http import require_POST
-from .logics import CartLogic
 from utils.views import json_view
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -28,23 +27,6 @@ def delete_from_cart(request):
     Cart.objects.get(user=request.user, id=cart_id).delete()
     return {'code': 1, 'content': 'delete cart ok'}
 
-
-@login_required
-@require_POST
-@json_view
-def getlist(request):
-    user_id = request.user.id
-    content = CartLogic.getlist(user_id)
-    return {'code': 1, 'content': content}
-
-
-@login_required
-@require_POST
-@json_view
-def clear_carts(request):
-    user_id = request.user.id
-    content = CartLogic.clear_carts(user_id)
-    return {'code': 1, 'content': content}
 
 @login_required
 def cart(request):
