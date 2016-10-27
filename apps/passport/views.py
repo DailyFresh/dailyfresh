@@ -67,7 +67,7 @@ def register(request):
             _login(request, user)
             # _login(request, user)
         # content = PassportLogic.register(username, password, email)
-        # register_success_email.delay(username)
+        register_success_email.delay(username, email)
         return redirect('/')
 
 
