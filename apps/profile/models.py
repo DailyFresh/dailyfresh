@@ -27,27 +27,6 @@ class Profile(BaseModel):
     class Meta:
         db_table = 's_user_profile'
 
-    @classmethod
-    def create_user_profile(cls, user_id, sex, realname, province, city,
-                            county, addr_detail):
-        return cls.add_one_object(
-            user_id=user_id, sex=sex, realname=realname,
-            province=province, city=city, county=county,
-            addr_detail=addr_detail)
-
-    @classmethod
-    def update_profile(cls, user_id, sex, realname, province, city, county,
-                       addr_detail):
-        data = cls.get_one_object({'user_id': user_id})
-        data.sex = sex
-        data.realname = realname
-        data.province = province
-        data.city = city
-        data.county = county
-        data.addr_detail = addr_detail
-        data.save()
-        return data
-
 
 class BrowseHistory(BaseModel):
     """

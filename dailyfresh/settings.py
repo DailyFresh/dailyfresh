@@ -141,9 +141,3 @@ HAYSTACK_CONNECTIONS = {
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 
-# redis及session配置
-SESSION_REDIS_HOST = '127.0.0.1'
-SESSION_REDIS_PORT = '6379'
-SESSION_REDIS_DB = 1
-SESSION_REDIS_PREFIX = 'dailyfresh'
-SESSION_ENGINE = 'redis_sessions.session'

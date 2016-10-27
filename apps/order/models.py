@@ -29,24 +29,6 @@ class SOrder(BaseModel):
     class Meta:
         db_table = 's_order'
 
-    # @classmethod
-    # def get_all_order(cls, user_id):
-    #     return cls.objects.filter(user_id=user_id)
-
-    # @classmethod
-    # def delete_one_order(cls, user_id, order_id):
-    #     data = cls.objects.get(user_id=user_id, id=order_id)
-    #     data.order_status = cls.DELETED
-    #     data.save()
-    #     return data
-
-    # @classmethod
-    # def cancel_one_order(cls, user_id, order_id):
-    #     data = cls.objects.get(user_id=user_id, id=order_id)
-    #     data.order_status = cls.CANCELED
-    #     data.save()
-    #     return data
-
 
 class SOrderGoods(BaseModel):
     """
