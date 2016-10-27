@@ -1,4 +1,4 @@
-from django.conf.urls import url, patterns
+from django.conf.urls import url, patterns, include
 from . import views
 
 
@@ -13,6 +13,7 @@ urlpatterns = patterns(
     # url(r'^update$', views.update_one_goods),
     url(r'^get$', views.get_one_goods),
     url(r'^getlist$', views.getlist),
-    url(r'^search$', views.search),
+    # url(r'^search$', views.search),
+    url(r'^search$', views.MySearchView.as_view()),
     # url(r'^search/', include('haystack.urls')),
 )

@@ -8,8 +8,7 @@ class GoodsIndex(indexes.SearchIndex, indexes.Indexable):
     商品搜索
     """
 
-    text = indexes.CharField(document=True, use_template=False)
-    goods_name = indexes.CharField(model_attr='goods_name')
+    text = indexes.CharField(document=True, use_template=True)
 
     def get_model(self):
         return Goods

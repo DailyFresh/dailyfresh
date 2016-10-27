@@ -8,6 +8,7 @@ from apps.cart.models import Cart
 from apps.profile.models import BrowseHistory
 from django.db.models import Sum
 from django.core.paginator import Paginator, EmptyPage
+from haystack.generic_views import SearchView
 
 
 def home_list_page(request):
@@ -137,3 +138,13 @@ def search(request):
     text = request.POST['text']
     content = GoodsLogic.search(text)
     return {'code': 1, 'content': content}
+
+
+class MySearchView(SearchView):
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(MySearchView, self).get_context_data(*args, **kwargs)
+        for result in context['page_obj'].object_list:
+            result.object.img = result.object.image_set.all()[0].img_url
+        return context
+
