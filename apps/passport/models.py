@@ -18,3 +18,12 @@ class Passport(AbstractUser, BaseModel):
 
     def check_password(self, raw_password):
         return self.password == md5(raw_password)
+
+    @classmethod
+    def get_user(cls, user_id):
+        return cls.objects.get(id=user_id)
+
+    @classmethod
+    def create_one_passport(cls, username, email, password):
+        return cls.objects.create_user(username=username, email=email,
+                                       password=password)
